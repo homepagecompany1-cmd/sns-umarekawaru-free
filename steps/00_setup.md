@@ -3,8 +3,8 @@
 このキットは、**あなた専用の非公開リポ**で動かします。公開リポのまま使うと、あなたの事業情報が公開されるので必ずこの手順を先に。
 
 ## A：Claude Code の人
-1. スマホの GitHub アプリ（無ければブラウザで github.com）で、このリポを開く
-2. **「Use this template」→「Create a new repository」**
+1. ブラウザで **https://github.com/homepagecompany1-cmd/sns-umarekawaru-free/generate** を開く（「Use this template」の画面が直接開く。GitHub のログインを求められたら入る）
+2. そのまま「Create a new repository」の画面
 3. 名前は何でもよい。**Private（非公開）** を選んで作成
 4. Claude アプリ → **Code** タブ → 「リポジトリを選ぶ」で、今作ったリポを選ぶ（初回は GitHub の許可画面が出るので許可）
 5. 入力欄に「AGENTS.md を読んで、始めて」と送る

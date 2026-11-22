@@ -3,7 +3,7 @@
 SNS コンサル・YouTube コンサル・運用代行が、お金をもらってやってきた流れを、**あなたの AI（Claude Code か Codex）で自分で回せる**ように、8つのステップにしました。
 
 ## 使い方（スマホだけで完了）
-1. **「Use this template」→ Private（非公開）**で自分のリポを作る（あなたの事業情報を公開しないため。手順：`steps/00_setup.md`）
+1. **ここを押す → https://github.com/homepagecompany1-cmd/sns-umarekawaru-free/generate**（「Use this template」の画面が直接開く）→ **Private（非公開）**で自分のリポを作る（あなたの事業情報を公開しないため。手順：`steps/00_setup.md`）
 2. Claude Code（Code タブ）か Codex で、そのリポを選び「AGENTS.md を読んで、始めて」と送る
 3. あとは AI が「次はこれ」と1つずつ案内します
 
