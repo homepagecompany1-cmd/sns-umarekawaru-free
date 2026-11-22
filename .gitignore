@@ -1,0 +1,7 @@
+out/*
+!out/.gitkeep
+data/insights/*
+!data/insights/.gitkeep
+.env
+*.key
+.DS_Store
