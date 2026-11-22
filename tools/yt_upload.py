@@ -6,7 +6,7 @@
 
 本人がやること: yt_pull.py と同じ OAuth（スコープに youtube.upload が足りなければ --auth で再許可）。
   実行前に AI は「題・説明・タグ・公開日時・サムネ」を本人に見せて OK をもらう（AGENTS.md 1）。
-AI がやること: OK 後に実行。失敗時は 70 のエラー表の前に、クォータ（videos.insert 1日100回・thumbnails.set 約50 units）を疑う。
+AI がやること: OK 後に実行。失敗時はまず、クォータ（videos.insert 1日100回・thumbnails.set 約50 units）を疑う。
 仕様（確認日 2026-11-22）:
   - status.publishAt で予約。安全側で privacyStatus=private を同時に送る。
   - 未審査アプリの非公開固定は 2026-11-02 の改訂で解除（developers.google.com/youtube/v3/revision_history）。

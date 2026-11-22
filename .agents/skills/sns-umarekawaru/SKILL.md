@@ -2,4 +2,5 @@
 name: sns-umarekawaru
 description: 「あなたのSNSアカウントが生まれ変わる」キット。SNSの棚卸し→コンセプト→分析→企画→作る→投稿予約→週1振り返りを、本人と1ステップずつ進める。「SNSをのばしたい」「続きから」「SNSキット」で使う。
 ---
-リポ直下の `AGENTS.md` を読み、`state/PROGRESS.md` の残りステップを表で出してから、一番上の未完了ステップを1つだけ案内する。
+リポ直下の `AGENTS.md` を読み、`state/PROGRESS.md` の残りステップを表で出してから、一番上の未完了ステップを1つだけ案内する。本人が「投稿：◯◯」と言ったら AGENTS.md の「すぐ出す」。全部完了なら `weekly/WEEKLY.md` の改善の回。
+（正本は .claude/skills/ 側。こちらは同じ内容の写し）

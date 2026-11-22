@@ -15,7 +15,7 @@ try:
 except Exception: pass
 
 def main():
-    p = argparse.ArgumentParser(); p.add_argument("--text", required=True); p.add_argument("--image", action="append", default=[]); p.add_argument("--at")
+    p = argparse.ArgumentParser(); p.add_argument("--text", required=True); p.add_argument("--image", action="append", default=[]); p.add_argument("--at"); p.add_argument("--yes", action="store_true", help="これを付けた時だけ投稿する")
     a = p.parse_args()
     keys = [os.environ.get(k) for k in ("X_API_KEY", "X_API_SECRET", "X_ACCESS_TOKEN", "X_ACCESS_SECRET")]
     if not all(keys): sys.exit("X の鍵4つが .env にありません。本人に platforms/x.md の 3 を案内してください")
@@ -23,6 +23,9 @@ def main():
     s = OAuth1Session(*keys)
     text = open(a.text, encoding="utf-8").read().strip()
     if len(a.image) > 4: sys.exit("画像は4枚まで")
+    cost = 0.200 if "http" in text else 0.015
+    print(f"=== 下見 ===\n{text}\n画像 {len(a.image)} 枚 / 日時 {a.at or '今すぐ'} / 料金の目安 ${cost}（docs.x.com 2026-11-22）")
+    if not a.yes: print("投稿していません。本人の OK 後に --yes を付けて実行"); return
     if a.at:
         t = datetime.datetime.fromisoformat(a.at); now = datetime.datetime.now(t.tzinfo)
         if t > now: print(f"{a.at} まで待ちます"); time.sleep((t - now).total_seconds())

@@ -23,6 +23,6 @@
 3. 文字入れは同じく `tools/overlay.py`。
 
 ### Gemini を使う時
-- 画像：Gemini アプリ／Gemini CLI の画像生成で作る。
+- 画像：**Gemini アプリ（スマホ）**で作る（API は無料枠なし・CLI の無料枠は未確認。platforms/gemini.md）。
 - サムネの文字案・タイトル案：Gemini に「視聴者が見ている物（YouTube Studio のスクショ）」を渡して 3 案もらい、Claude/Codex の案と並べて本人が選ぶ。
 - 公式の無料枠と制限は platforms/gemini.md。

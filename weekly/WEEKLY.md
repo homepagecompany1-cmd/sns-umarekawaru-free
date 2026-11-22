@@ -1,15 +1,17 @@
 # 週1回の「改善の回」（毎週同じ順番・所要 20〜30 分）
 
+※ この時間は **SNS 1つ・週3本まで** の目安。数字のスクショは「一覧画面を1枚」でよい（投稿ごとに撮らない）。SNS を増やすと比例して増える。
+
 本人が「今週の回」「週1」と言ったら、AI はこの順で進める。全部 1 回で終わらせず、途中で止まったら `state/PROGRESS.md` の「くり返しの記録」に途中まで書いて保存する。
 
 | 順 | すること | 読む物 | 出す物 |
 |---|---|---|---|
 | 1 | 先週の数字を取り込む（YouTube Studio のスクショ／Instagram インサイト／X のアナリティクス。API がつながっていれば `tools/` で自動） | platforms/*.md の「数字の取り方」 | `data/posts/post_log.csv` の更新 |
 | 2 | X のアルゴリズムの公開情報を読み直す（週1・変わっていれば `data/x_algo/NOTES.md` を更新） | platforms/x.md の「公開されている仕組み」 | `data/x_algo/NOTES.md` |
-| 3 | のびた投稿・のびなかった投稿を SNS ごとに出し、理由の仮説を 3 つ | steps/03_bunseki.md | `out/report_YYYYMMDD.md` |
-| 4 | 来週の企画（SNS ごとに本数ぶん）。X は 2 の重みづけを反映、YouTube は Studio の「視聴者が見ている物」を反映 | steps/04_kikaku.md | `out/calendar_YYYYMMDD.md` |
+| 3 | のびた投稿・のびなかった投稿を出し、理由の仮説を 3 つ。**勝ちパターン／やめた事を更新** | steps/03_bunseki.md | `out/report_YYYYMMDD.md`・PROGRESS の表 |
+| 4 | 来週の企画（本数ぶん）。**勝ちパターンを最初から使う**。X は 2 の重みづけ、YouTube は Studio の「視聴者が見ている物」を反映 | steps/pro_kata.md → steps/04_kikaku.md | `out/calendar_YYYYMMDD.md` |
 | 5 | 作る（台本・本文・カルーセル・サムネ）。画像は Codex か Gemini で | steps/05_tsukuru.md、platforms/thumbnail.md | `out/YYYYMMDD_*/` |
-| 6 | 本人が確認 → 予約投稿（公式の予約機能 or API） | steps/06_toukou.md | 予約済みの一覧 |
+| 6 | 本人が確認 → GitHub アプリで画像保存 → 公式アプリで予約（確定は本人） | steps/06_toukou.md | 予約済みの一覧・確定記録 |
 | 7 | 「くり返しの記録」に 1 行 | state/PROGRESS.md | — |
 
 ## プロの目線チェック（4 で企画を出す前に AI が自分で確認する）
@@ -19,8 +21,10 @@
 - 先週「やめる」と決めたことを、また入れていないか
 - 会社として出して困る表現（根拠のない断定・他社批判・個人情報・著作物の無断使用）が無いか
 - 投稿日時は、先週のびた曜日・時間帯になっているか
+- 勝ちパターンの表を使ったか／やめた事を入れていないか
+- 実写風の AI 素材の申告を案内したか
 
 ## 会社で使う時（担当者が複数いる場合）
 - 企画と原稿は AI が `out/` に出し、**公開の確定は決裁者が押す**（6）。
-- 誰がいつ何を確定したかは `state/PROGRESS.md` の記録に残る。
+- 誰がいつ何を確定したかは `state/PROGRESS.md` の「確定記録」に残る（06 で AI が1行書く）。
 - 鍵（API トークン）は会社名義で発行し、担当者個人の端末に置かない（platforms/*.md の鍵の置き場所を参照）。

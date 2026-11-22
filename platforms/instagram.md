@@ -14,7 +14,7 @@
 - `impressions` は廃止済み。道具：`tools/ig_pull.py`
 
 ## 2. 投稿（API）
-- 必要：**プロアカウント**。権限 `instagram_business_basic` と `instagram_business_content_publish`。
+- 必要：**プロアカウント**。権限 `instagram_business_basic`・`instagram_business_content_publish`（投稿）・`instagram_business_manage_insights`（数字）。
 - 審査：Standard Access は審査なし。アプリのロール保有者（管理者・開発者・テスター）は**自分のアカウントに審査なしで使える**。他人のアカウントに使うには Advanced Access（審査）。
   出典 https://developers.facebook.com/docs/graph-api/overview/access-levels
 - 上限：24時間で **100件**（同ページ内に 50件の記述もあり矛盾）。実値は `GET /<IG_ID>/content_publishing_limit` で確認する。
@@ -37,5 +37,5 @@
 1. Instagram をプロアカウントにする
 2. developers.facebook.com でアプリを作り、「Instagram」製品を追加
 3. 自分のアカウントをアプリのテスターに入れ、承認する
-4. アクセストークンを発行 → **AI に渡さず** Secrets か `.env` に置く（長期トークンに交換する手順も本人が画面で）
+4. アクセストークン（権限 basic / content_publish / manage_insights）を発行 → **AI に渡さず** `.env` に置く（長期トークンに交換する手順も本人が画面で）
 AI は画面の順番だけ案内する。

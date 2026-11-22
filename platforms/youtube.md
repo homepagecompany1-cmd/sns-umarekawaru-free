@@ -31,7 +31,7 @@
 
 ## 3. 本人がやること（API を使う時・1回だけ）
 1. Google Cloud で新しいプロジェクトを作る（本人の Google アカウント）
-2. 「YouTube Data API v3」「YouTube Analytics API」「YouTube Reporting API」を有効にする
+2. 「YouTube Data API v3」「YouTube Analytics API」を有効にする（CTR は Studio の画面で見る。Reporting API の道具は入っていない）
 3. OAuth 同意画面を作り、自分をテストユーザーに入れる
 4. OAuth クライアント ID（デスクトップ）を作り、`client_secret.json` をダウンロード → **AI に渡さず**、`.env` の指す場所か Secrets に置く
 5. 初回だけ、ブラウザで認可（`tools/yt_pull.py --auth`）

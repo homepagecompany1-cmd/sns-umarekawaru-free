@@ -19,14 +19,26 @@ def main():
     im = Image.open(a.src).convert("RGBA")
     W, H = im.size
     size = a.size or max(40, W // 12)
-    try:
-        font = ImageFont.truetype(a.font, size) if a.font else ImageFont.truetype("/System/Library/Fonts/ヒラギノ角ゴシック W8.ttc", size)
-    except Exception:
-        for cand in ["/System/Library/Fonts/Hiragino Sans GB.ttc", "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc", "/usr/share/fonts/truetype/noto/NotoSansCJK-Bold.ttc"]:
-            try: font = ImageFont.truetype(cand, size); break
-            except Exception: font = None
-        if font is None:
-            print("日本語フォントが見つかりません。--font でフォントファイルを指定してください", file=sys.stderr); sys.exit(2)
+    import os
+    cands = [a.font] if a.font else []
+    cands += [os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "fonts", "NotoSansJP-VF.ttf"),
+              "/System/Library/Fonts/ヒラギノ角ゴシック W8.ttc", "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"]
+    font = None
+    for c in cands:
+        try:
+            font = ImageFont.truetype(c, size)
+            try: font.set_variation_by_name("Bold")
+            except Exception: pass
+            break
+        except Exception: continue
+    if font is None:
+        print("フォントが見つかりません（fonts/NotoSansJP-VF.ttf が無い？）", file=sys.stderr); sys.exit(2)
+    # 13字で自動改行
+    lines = []
+    for l in a.lines:
+        while len(l) > 13: lines.append(l[:13]); l = l[13:]
+        lines.append(l)
+    a.lines = lines
     d = ImageDraw.Draw(im)
     lh = int(size * 1.25); total = lh * len(a.lines)
     y = {"bottom": H - total - H // 12, "center": (H - total) // 2, "top": H // 12}[a.pos]

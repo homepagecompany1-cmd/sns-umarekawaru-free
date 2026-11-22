@@ -1,8 +1,13 @@
-out/*
-!out/.gitkeep
-data/insights/*
-!data/insights/.gitkeep
+# 鍵・トークン（絶対に入れない）
 .env
+.env.*
+client_secret*.json
+*token*.json
 *.key
+# 一時
+__pycache__/
+*.pyc
 .DS_Store
-.yt_token.json
+# 大きい動画だけ除外（画像・原稿は out/ に残す＝次の回で使う）
+out/**/*.mp4
+out/**/*.mov

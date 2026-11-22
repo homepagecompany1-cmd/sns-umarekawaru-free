@@ -1,6 +1,6 @@
 # 7. 週1回の振り返り（月次レポート・定例ミーティングの代わり）
 
-## 毎週やること（15分）
+## 毎週やること（SNS 1つ・週3本までなら 20〜30分。以後は `weekly/WEEKLY.md` の順で）
 1. 本人が、先週の投稿の数字を `data/posts/post_log.csv` に入れる（スクショを貼れば AI が読み取って入れてもよい）。
 2. AI が `templates/weekly_report.md` の形で `out/report_YYYYMMDD.md` を作る：
    - 今週の数字（先週と比べて）

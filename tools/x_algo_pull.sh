@@ -4,7 +4,7 @@
 # 保存先: data/x_algo/  （生のコードは保存しない。該当ファイル名と、重みに関する行だけ）
 set -e
 cd "$(dirname "$0")/.."
-REPOS="${X_ALGO_REPOS:-https://github.com/twitter/the-algorithm https://github.com/xai-org/x-algorithm}"
+REPOS="${X_ALGO_REPOS:-https://github.com/xai-org/x-algorithm}"  # 旧版 twitter/the-algorithm は重いので既定から外した
 TMP="${TMPDIR:-/tmp}/x_algo_$$"; mkdir -p "$TMP" data/x_algo
 DATE=$(date +%Y%m%d)
 OUT="data/x_algo/extract_$DATE.md"
