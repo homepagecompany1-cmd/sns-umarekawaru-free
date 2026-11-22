@@ -2,6 +2,9 @@
 
 このキットは、**あなた専用の非公開リポ**で動かします。公開リポのまま使うと、あなたの事業情報が公開されるので必ずこの手順を先に。
 
+## 0：GitHub のアカウント（無い人だけ）
+- github.com/signup で作る。2段階認証は **iPhone の「設定 → パスワード」／Android の Google パスワードマネージャー**で認証コードを作れる（別アプリ不要）。**リカバリーコードは必ずメモに保存。**
+
 ## A：Claude Code の人
 1. ブラウザで **https://github.com/homepagecompany1-cmd/sns-umarekawaru-free/generate** を開く（「Use this template」の画面が直接開く。GitHub のログインを求められたら入る）
 2. そのまま「Create a new repository」の画面
