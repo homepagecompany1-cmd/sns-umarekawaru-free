@@ -8,3 +8,7 @@
 - 保証：フォロワー数・再生数・売上・各 SNS の審査の通過は保証しません。提供者の責任は、法令で許される範囲で限定します。
 - パスワード・鍵・トークンは、AI にも他人にも渡さないでください。
 - 各 SNS（Instagram・Threads・YouTube・X・TikTok）、Anthropic・OpenAI の規約と料金は、それぞれの公式に従います。API や画面の仕様は変わることがあります。
+- **著作権表示：** © 2026 すぐ来るたいき（ヨセカ／山下大揮・GitHub: homepagecompany1-cmd）
+- **表示の例（CC BY の条件）：** 「出典：あなたのSNSアカウントが生まれ変わる（すぐ来るたいき） https://github.com/homepagecompany1-cmd/sns-umarekawaru-free 」
+- **`tools/` のプログラムだけは MIT ライセンス**（`tools/LICENSE`）。手順書・ひな形・文面は上の CC BY-NC 4.0。
+- `fonts/NotoSansJP-VF.ttf` は SIL Open Font License 1.1（`fonts/OFL.txt`）。
