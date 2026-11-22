@@ -5,3 +5,4 @@ data/insights/*
 .env
 *.key
 .DS_Store
+.yt_token.json
