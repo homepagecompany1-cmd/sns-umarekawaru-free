@@ -10,6 +10,7 @@
 2. そのまま「Create a new repository」の画面
 3. 名前は何でもよい。**Private（非公開）** を選んで作成
 4. Claude アプリ → **Code** タブ → 「リポジトリを選ぶ」で、今作ったリポを選ぶ（初回は GitHub の許可画面が出るので許可）
+   - 一覧に出ない時：GitHub の連携で「選んだリポだけ」を許可している。github.com → Settings → Applications → Claude → **Configure** → 作ったリポを足す（または All repositories）。
 5. 入力欄に「AGENTS.md を読んで、始めて」と送る
 
 ## B：Codex の人
