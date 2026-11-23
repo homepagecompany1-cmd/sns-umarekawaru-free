@@ -19,6 +19,10 @@ yt_pull.SCOPES = ["https://www.googleapis.com/auth/youtube.upload", "https://www
                   "https://www.googleapis.com/auth/yt-analytics.readonly"]
 
 def main():
+    import sys
+    if "--auth" in sys.argv:   # 許可だけやり直す（アップロードの権限が足りない時）
+        if yt_pull.TOKEN.exists(): yt_pull.TOKEN.unlink()
+        yt_pull.creds(); print("許可をやり直しました（youtube.upload を含む）"); return
     p = argparse.ArgumentParser(); p.add_argument("video"); p.add_argument("--title", required=True)
     p.add_argument("--desc", help="説明文のファイル"); p.add_argument("--tags", default="")
     p.add_argument("--thumb"); p.add_argument("--at", help="公開日時 ISO8601（例 2026-12-01T19:00:00+09:00）")

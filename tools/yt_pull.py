@@ -62,16 +62,12 @@ def main():
             v = am[o["id"]]; o.update({"avg_sec": v[2], "avg_pct": v[3], "subs_gained": v[4]})
     d = ROOT / "data" / "youtube"; d.mkdir(parents=True, exist_ok=True)
     (d / f"videos_{end:%Y%m%d}.json").write_text(json.dumps(out, ensure_ascii=False, indent=1))
-    log = ROOT / "data" / "posts" / "post_log.csv"
-    seen = set()
-    if log.exists():
-        with open(log, newline="") as f: seen = {r.get("メモ", "") for r in csv.DictReader(f)}
-    with open(log, "a", newline="") as f:
-        w = csv.writer(f)
-        for o in out:
-            if f"yt:{o['id']}" in seen: continue
-            w.writerow([o["published"], "YouTube", "動画", "", o["title"], o["views"], o["likes"], o["comments"], "", "",
-                        o.get("avg_sec", ""), o.get("avg_pct", ""), o.get("subs_gained", ""), f"yt:{o['id']}"])
-    print(f"{len(out)} 本を保存: {d}  ／ post_log.csv に追記（CTR は Reporting API か Studio の画面で）")
+    from postlog import upsert
+    rows = [{"投稿日": o["published"], "SNS": "YouTube", "種類(画像/カルーセル/動画/文章)": "動画", "最初の1行": o["title"],
+             "表示回数": o["views"], "いいね": o["likes"], "コメント": o["comments"],
+             "平均視聴時間(秒)": o.get("avg_sec", ""), "平均視聴率(%)": o.get("avg_pct", ""),   # 平均視聴率＝平均で何%見られたか（最後まで見た率とは別）
+             "フォロー増": o.get("subs_gained", ""), "投稿ID": f"yt:{o['id']}"} for o in out]
+    add, upd = upsert(rows, f"表示回数などは累計・平均視聴と登録者増は {start}〜{end}")
+    print(f"{len(out)} 本を保存: {d}  ／ post_log.csv：新しく {add}・数字を更新 {upd}（CTR は Studio の画面で）")
 
 if __name__ == "__main__": main()

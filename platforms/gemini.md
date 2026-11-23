@@ -3,7 +3,7 @@
 確認日 2026-11-22。
 
 ## Codex（B の人・画像はこれが一番手軽）
-- Codex の画像生成は `gpt-image-2`。**ChatGPT のプラン利用分に含まれ、追加料金なし**（ただし利用上限の消費が 3〜5 倍速い）。大量生成で API キーを使う時だけ API 料金。
+- Codex の画像生成（`gpt-image-2`）は、ChatGPT のプラン利用分に含まれる形で使える場合がある（利用上限の消費は速い）。**使える画面・プラン・上限は変わるので、最初に AI が1枚作って保存できるか試す**。作れなければ、プロンプトを出して本人が ChatGPT／Gemini アプリで作る方法に切り替える。条件は公式で確認：https://learn.chatgpt.com/docs/image-generation
   https://learn.chatgpt.com/docs/image-generation
 - 使い方：AI（Codex）に「画像を作って `out/.../thumb_1.png` に保存」と頼む。文字は入れない（`tools/overlay.py` で後から重ねる）。
 

@@ -37,18 +37,17 @@ def main():
     d = ROOT / "data" / "instagram"; d.mkdir(parents=True, exist_ok=True)
     today = datetime.date.today()
     (d / f"media_{today:%Y%m%d}.json").write_text(json.dumps(out, ensure_ascii=False, indent=1))
-    log = ROOT / "data" / "posts" / "post_log.csv"; seen = set()
-    if log.exists():
-        with open(log, newline="") as f: seen = {r.get("メモ", "") for r in csv.DictReader(f)}
-    with open(log, "a", newline="") as f:
-        w = csv.writer(f)
-        for o in out:
-            key = f"ig:{o['id']}"
-            if key in seen: continue
-            i = o["insights"]; cap = (o.get("caption") or "").split("\n")[0][:40]
-            kind = {"CAROUSEL_ALBUM": "カルーセル", "VIDEO": "動画", "IMAGE": "画像"}.get(o["media_type"], o["media_type"])
-            w.writerow([o["timestamp"][:10], "Instagram", kind, "", cap, i.get("views", i.get("reach")), i.get("likes"), i.get("comments"),
-                        i.get("saved"), i.get("shares"), i.get("ig_reels_avg_watch_time", ""), "", i.get("follows", ""), key])
-    print(f"@{me['username']} {len(out)} 件を保存: {d} ／ post_log.csv に追記")
+    from postlog import upsert
+    rows = []
+    for o in out:
+        i = o["insights"]; cap = (o.get("caption") or "").split("\n")[0][:40]
+        kind = {"CAROUSEL_ALBUM": "カルーセル", "VIDEO": "動画", "IMAGE": "画像"}.get(o["media_type"], o["media_type"])
+        avg = i.get("ig_reels_avg_watch_time", "")
+        if isinstance(avg, (int, float)) and avg: avg = round(avg / 1000, 1)   # Instagram はミリ秒で返す
+        rows.append({"投稿日": o["timestamp"][:10], "SNS": "Instagram", "種類(画像/カルーセル/動画/文章)": kind, "最初の1行": cap,
+                     "表示回数": i.get("views", i.get("reach")), "いいね": i.get("likes"), "コメント": i.get("comments"), "保存": i.get("saved"),
+                     "シェア": i.get("shares"), "平均視聴時間(秒)": avg, "フォロー増": i.get("follows", ""), "投稿ID": f"ig:{o['id']}"})
+    add, upd = upsert(rows, "投稿してから今日まで（累計）")
+    print(f"@{me['username']} {len(out)} 件を保存: {d} ／ post_log.csv：新しく {add}・数字を更新 {upd}")
 
 if __name__ == "__main__": main()

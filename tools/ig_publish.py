@@ -36,12 +36,13 @@ def wait_ready(cid):
 
 def main():
     p = argparse.ArgumentParser(); p.add_argument("--image", action="append", default=[]); p.add_argument("--reel")
-    p.add_argument("--cover"); p.add_argument("--caption", required=True); p.add_argument("--at"); p.add_argument("--limit", action="store_true"); p.add_argument("--yes", action="store_true", help="これを付けた時だけ公開する")
+    p.add_argument("--cover"); p.add_argument("--caption"); p.add_argument("--at"); p.add_argument("--limit", action="store_true"); p.add_argument("--yes", action="store_true", help="これを付けた時だけ公開する")
     a = p.parse_args()
     if not os.environ.get("IG_TOKEN"): sys.exit("IG_TOKEN が .env にありません")
     me = call("me", fields="id,username"); uid = me["id"]
     if a.limit:
         print(json.dumps(call(f"{uid}/content_publishing_limit", fields="quota_usage,config"), ensure_ascii=False)); return
+    if not a.caption: sys.exit("--caption（本文のファイル）を付けてください")
     cap = open(a.caption, encoding="utf-8").read()
     print("=== 下見 ===\n本文:\n" + cap + f"\n画像: {len(a.image)} 枚 / リール: {a.reel or 'なし'} / 日時: {a.at or '今すぐ'}")
     if not a.yes: print("公開していません。本人の OK 後に --yes を付けて実行"); return

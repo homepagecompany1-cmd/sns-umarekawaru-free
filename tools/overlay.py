@@ -4,7 +4,8 @@
 使い方:
   python3 tools/overlay.py 入力.png 出力.png "1行目" ["2行目"] [--font フォント.ttf] [--size 96] [--pos bottom|center|top]
 
-本人がやること: なし（AI が実行する）。Pillow が無ければ `pip install pillow`。
+本人がやること: なし（AI が実行する）。Pillow が無ければ `pip install pillow`（Linux は `apt-get install -y python3-pil fonts-noto-cjk` でも可）。
+文字は画像の幅に合わせて自動で改行・縮小。--max-lines（既定2）行に入らない時は止まるので、言葉を短くする。
 """
 import argparse, sys
 from PIL import Image, ImageDraw, ImageFont
@@ -14,7 +15,7 @@ def main():
     p.add_argument("src"); p.add_argument("dst"); p.add_argument("lines", nargs="+")
     p.add_argument("--font", default=None); p.add_argument("--size", type=int, default=0)
     p.add_argument("--pos", default="bottom", choices=["bottom","center","top"])
-    p.add_argument("--color", default="#ffffff"); p.add_argument("--stroke", default="#1a1712")
+    p.add_argument("--max-lines", type=int, default=2, dest="max_lines"); p.add_argument("--color", default="#ffffff"); p.add_argument("--stroke", default="#1a1712")
     a = p.parse_args()
     im = Image.open(a.src).convert("RGBA")
     W, H = im.size
@@ -33,19 +34,39 @@ def main():
         except Exception: continue
     if font is None:
         print("フォントが見つかりません（fonts/NotoSansJP-VF.ttf が無い？）", file=sys.stderr); sys.exit(2)
-    # 13字で自動改行
-    lines = []
-    for l in a.lines:
-        while len(l) > 13: lines.append(l[:13]); l = l[13:]
-        lines.append(l)
-    a.lines = lines
-    d = ImageDraw.Draw(im)
-    lh = int(size * 1.25); total = lh * len(a.lines)
+    # 幅に合わせて改行し、入らなければ文字を小さくする（縁取りも含めて左右の余白の内側に収める）
+    d = ImageDraw.Draw(im); margin = W // 14; maxw = W - margin * 2; maxl = a.max_lines
+    def load(sz):
+        f = ImageFont.truetype(font.path, sz)
+        try: f.set_variation_by_name("Bold")
+        except Exception: pass
+        return f
+    def width(t, f, sw): b = d.textbbox((0, 0), t, font=f, stroke_width=sw); return b[2] - b[0]
+    def layout(f, sw):
+        out = []
+        for src in a.lines:
+            cur = ""
+            for ch in src:
+                if cur and width(cur + ch, f, sw) > maxw:
+                    out.append(cur); cur = ch
+                else: cur += ch
+            out.append(cur)
+        return out
+    size0 = size
+    while True:
+        sw = max(3, size // 14); f = load(size); lines = layout(f, sw)
+        if (len(lines) <= maxl and all(width(l, f, sw) <= maxw for l in lines)) or size <= max(40, int(size0 * 0.6)): break
+        size -= 4
+    if len(lines) > maxl:
+        print(f"⛔ 文字が多すぎて {maxl} 行に入りません（{len(lines)} 行）。言葉を短くしてください：" + " / ".join(a.lines), file=sys.stderr); sys.exit(3)
+    font = f
+    lh = int(size * 1.25); total = lh * len(lines)
     y = {"bottom": H - total - H // 12, "center": (H - total) // 2, "top": H // 12}[a.pos]
-    for line in a.lines:
-        w = d.textlength(line, font=font)
-        d.text(((W - w) // 2, y), line, font=font, fill=a.color, stroke_width=max(3, size // 14), stroke_fill=a.stroke)
+    for line in lines:
+        w = width(line, font, sw); bb = d.textbbox((0, 0), line, font=font, stroke_width=sw)
+        d.text(((W - w) // 2 - bb[0], y), line, font=font, fill=a.color, stroke_width=sw, stroke_fill=a.stroke)
         y += lh
+    if size < size0: print(f"文字が入るように {size0}px → {size}px に小さくしました", file=sys.stderr)
     im.convert("RGB").save(a.dst, quality=92)
     print(a.dst)
 

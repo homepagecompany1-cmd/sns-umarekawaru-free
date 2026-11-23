@@ -26,17 +26,14 @@ def main():
     out = r.get("data", [])
     d = ROOT / "data" / "x"; d.mkdir(parents=True, exist_ok=True)
     today = datetime.date.today(); (d / f"tweets_{today:%Y%m%d}.json").write_text(json.dumps(out, ensure_ascii=False, indent=1))
-    log = ROOT / "data" / "posts" / "post_log.csv"; seen = set()
-    if log.exists():
-        with open(log, newline="") as f: seen = {r.get("メモ", "") for r in csv.DictReader(f)}
-    with open(log, "a", newline="") as f:
-        w = csv.writer(f)
-        for t in out:
-            key = f"x:{t['id']}"
-            if key in seen: continue
-            m = t.get("public_metrics", {})
-            w.writerow([t["created_at"][:10], "X", "文章", "", t["text"].split("\n")[0][:40], m.get("impression_count"), m.get("like_count"),
-                        m.get("reply_count"), m.get("bookmark_count"), m.get("retweet_count", 0) + m.get("quote_count", 0), "", "", "", key])
-    print(f"{len(out)} 件を保存: {d} ／ post_log.csv に追記")
+    from postlog import upsert
+    rows = []
+    for t in out:
+        m = t.get("public_metrics", {})
+        rows.append({"投稿日": t["created_at"][:10], "SNS": "X", "種類(画像/カルーセル/動画/文章)": "文章", "最初の1行": t["text"].split("\n")[0][:40],
+                     "表示回数": m.get("impression_count"), "いいね": m.get("like_count"), "コメント": m.get("reply_count"),
+                     "保存": m.get("bookmark_count"), "シェア": (m.get("retweet_count") or 0) + (m.get("quote_count") or 0), "投稿ID": f"x:{t['id']}"})
+    add, upd = upsert(rows, "投稿してから今日まで（累計）")
+    print(f"{len(out)} 件を保存: {d} ／ post_log.csv：新しく {add}・数字を更新 {upd}")
 
 if __name__ == "__main__": main()

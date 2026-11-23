@@ -73,7 +73,7 @@ API をつなぐ道具は `tools/`（**PC がある人だけ**。スマホだけ
 | 項目 | A：Claude Code | B：Codex |
 |---|---|---|
 | スマホの入口 | Claude アプリ → Code タブ | ChatGPT → Codex |
-| 画像を作る | 説明文（プロンプト）を `out/.../prompt.txt` に。本人が ChatGPT か Gemini アプリで作って `out/` に入れる | Codex の画像生成で作り、`out/` に保存（追加料金なし） |
+| 画像を作る | 説明文（プロンプト）を `out/.../prompt.txt` に。本人が ChatGPT か Gemini アプリで作って `out/` に入れる | Codex の画像生成で作り、`out/` に保存（まず1枚試す。作れなければ左と同じ方法に切り替える） |
 | 投稿 | 本文・ハッシュタグ・日時を `out/` に用意 → 本人が公式アプリで予約 | 同じ |
 | 保存 | commit → push | commit → 本人が PR を merge |
 

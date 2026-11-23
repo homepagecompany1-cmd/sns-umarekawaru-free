@@ -3,6 +3,7 @@
 # 本人がやること: なし。AI が実行する。git が要る。
 # 保存先: data/x_algo/  （生のコードは保存しない。該当ファイル名と、重みに関する行だけ）
 set -e
+FAIL=0
 cd "$(dirname "$0")/.."
 REPOS="${X_ALGO_REPOS:-https://github.com/xai-org/x-algorithm}"  # 旧版 twitter/the-algorithm は重いので既定から外した
 TMP="${TMPDIR:-/tmp}/x_algo_$$"; mkdir -p "$TMP" data/x_algo
@@ -22,8 +23,10 @@ for R in $REPOS; do
     echo '```' >> "$OUT"
   else
     echo "" >> "$OUT"; echo "## $R" >> "$OUT"; echo "取得できず（リポが無い・非公開・ネットワーク）" >> "$OUT"
+    FAIL=1
   fi
 done
 rm -rf "$TMP"
+if [ "${FAIL:-0}" = 1 ]; then echo "⛔ 取得できませんでした。NOTES.md は更新しないで、前回の内容のまま「今週は未確認」と書く" >&2; exit 1; fi
 echo "$OUT"
 echo "次: AI が $OUT を読み、data/x_algo/NOTES.md（人が読める要点・前回との差分）を更新する"
