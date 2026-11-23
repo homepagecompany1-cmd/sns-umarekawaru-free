@@ -57,6 +57,8 @@ def main():
         sw = max(3, size // 14); f = load(size); lines = layout(f, sw)
         if (len(lines) <= maxl and all(width(l, f, sw) <= maxw for l in lines)) or size <= max(40, int(size0 * 0.6)): break
         size -= 4
+    if any(width(l, f, sw) > maxw for l in lines):
+        print("⛔ 画像の幅が狭すぎて文字が入りません。画像を大きくするか言葉を短くしてください", file=sys.stderr); sys.exit(3)
     if len(lines) > maxl:
         print(f"⛔ 文字が多すぎて {maxl} 行に入りません（{len(lines)} 行）。言葉を短くしてください：" + " / ".join(a.lines), file=sys.stderr); sys.exit(3)
     font = f

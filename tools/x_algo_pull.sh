@@ -17,9 +17,10 @@ for R in $REPOS; do
     echo "最終コミット: $(git -C "$TMP/$N" log -1 --format='%cd' --date=short)" >> "$OUT"
     echo "" >> "$OUT"; echo '```' >> "$OUT"
     # 重み・スコアに関する行（名前と数値）だけ。上限 200 行。
-    grep -rniE "weight|_score|boost|decay|half_life|penalt" "$TMP/$N" \
+    grep -riE "weight|_score|boost|decay|half_life|penalt" "$TMP/$N" \
       --include='*.scala' --include='*.py' --include='*.rs' --include='*.yml' --include='*.yaml' --include='*.md' --include='*.conf' 2>/dev/null \
-      | grep -E "[0-9]" | grep -viE "copyright|license|test" | sed "s#$TMP/$N/##" | head -200 >> "$OUT"
+      | grep -E "[0-9]" | grep -viE "copyright|license|test" | sed "s#$TMP/$N/##" | head -200 > "$TMP/hits.txt" || true
+    if [ -s "$TMP/hits.txt" ]; then cat "$TMP/hits.txt" >> "$OUT"; else echo "（重みに関する行が見つからない＝リポの形が変わった可能性）" >> "$OUT"; FAIL=1; fi
     echo '```' >> "$OUT"
   else
     echo "" >> "$OUT"; echo "## $R" >> "$OUT"; echo "取得できず（リポが無い・非公開・ネットワーク）" >> "$OUT"

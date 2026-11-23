@@ -18,12 +18,12 @@ def get(path, **q):
     with urllib.request.urlopen(req) as r: return json.load(r)
 
 def main():
-    p = argparse.ArgumentParser(); p.add_argument("--max", type=int, default=50); p.add_argument("--username", required=True)
+    p = argparse.ArgumentParser(); p.add_argument("--max", type=int, default=50, help="1〜100（API は最低5件取得する）"); p.add_argument("--username", required=True)
     a = p.parse_args()
     if not os.environ.get("X_BEARER"): sys.exit("X_BEARER が .env にありません。本人に platforms/x.md の 3 を案内してください")
     uid = get(f"users/by/username/{a.username}")["data"]["id"]
     r = get(f"users/{uid}/tweets", max_results=min(100, max(5, a.max)), **{"tweet.fields": "created_at,public_metrics,text"})
-    out = r.get("data", [])
+    out = r.get("data", [])[:a.max]   # X の API は1回 5〜100 件。--max より多く来た分は使わない（料金は取得した件数で決まるので最大100件ぶん）
     d = ROOT / "data" / "x"; d.mkdir(parents=True, exist_ok=True)
     today = datetime.date.today(); (d / f"tweets_{today:%Y%m%d}.json").write_text(json.dumps(out, ensure_ascii=False, indent=1))
     from postlog import upsert

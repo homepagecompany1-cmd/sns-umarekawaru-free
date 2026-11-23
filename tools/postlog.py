@@ -61,8 +61,9 @@ def weekly_diff(days=7):
         base = [r for r in rs if r["取得日"] <= cut]
         if not base: continue
         b = base[-1]
-        def d(k):
-            try: return int(float(last[k] or 0)) - int(float(b[k] or 0))
+        def d(k):   # どちらかが空（取れなかった回）なら差は出さない（0 として減ったことにしない）
+            if not (last.get(k) or "").strip() or not (b.get(k) or "").strip(): return ""
+            try: return int(float(last[k])) - int(float(b[k]))
             except ValueError: return ""
         out.append({"投稿ID": pid, "期間": f"{b['取得日']}→{last['取得日']}", **{k: d(k) for k in ("表示回数", "いいね", "保存", "シェア")}})
     return out
@@ -72,6 +73,6 @@ if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "weekly":
         rs = weekly_diff(int(sys.argv[2]) if len(sys.argv) > 2 else 7)
         if not rs: print("まだ比べられる記録がありません（7日以上あけて2回取り込むと出ます）")
-        for r in sorted(rs, key=lambda r: -(r["表示回数"] or 0)): print(r)
+        for r in sorted(rs, key=lambda r: -(r["表示回数"] if isinstance(r["表示回数"], int) else -1)): print(r)
     else:
         print(f"{len(read())} 行（{LOG}）")
